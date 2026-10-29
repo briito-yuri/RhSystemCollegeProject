@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Esquadro Engenharia Ltda. — Sistema de RH (Planta Técnica)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+
+  <!-- =========================================================================
+       FOLHA 01 — LOGIN
+       ========================================================================= -->
+  <div id="folha-login" class="planta-frame ativo">
+    <header class="login-topbar">
+      <div class="mono-label">
+        <span class="txt-principal">FOLHA 01</span>
+        <span class="sep">/</span>
+        <span>ESQUADRO ENGENHARIA · SISTEMA DE RH</span>
+      </div>
+      <div class="mono-label">REV. A — ESC. 1:1</div>
+    </header>
+
+    <main class="login-main">
+      <section class="login-brand">
+        <div class="mono-label det-tag">DET. A — ACESSO RESTRITO</div>
+        <h1 class="brand-title">ESQUADRO</h1>
+        <div class="brand-subtitle">
+          <span>E</span><span>N</span><span>G</span><span>E</span><span>N</span><span>H</span><span>A</span><span>R</span><span>I</span><span>A</span>
+        </div>
+        <p class="brand-desc">Sistema de RH — gestão de pessoal e folha de pagamento.</p>
+      </section>
+
+      <section class="login-card">
+        <div class="panel-header">
+          <div class="panel-num">01</div>
+          <div class="panel-title">ACESSO AO SISTEMA</div>
+        </div>
+        <form class="login-body" onsubmit="realizarLogin(event)">
+          <div class="field-group">
+            <label for="login-usuario" class="field-label">USUÁRIO</label>
+            <input type="text" id="login-usuario" class="field-input" placeholder="Digite seu usuário" autocomplete="off">
+          </div>
+          <div class="field-group">
+            <label for="login-senha" class="field-label">SENHA</label>
+            <input type="password" id="login-senha" class="field-input" placeholder="••••••">
+          </div>
+          <div id="login-msg" class="feedback-msg" style="display:none;"></div>
+          <button type="submit" class="btn-amarelo btn-full" id="btn-entrar">
+            <span>ENTRAR</span>
+            <span class="seta">→</span>
+          </button>
+        </form>
+      </section>
+    </main>
+
+    <footer class="carimbo carimbo-login">
+      <div class="carimbo-cell">
+        <span class="carimbo-label">EMPRESA</span>
+        <strong class="carimbo-val">Esquadro Engenharia Ltda.</strong>
+      </div>
+      <div class="carimbo-cell">
+        <span class="carimbo-label">PROJETO</span>
+        <strong class="carimbo-val">Sistema de RH</strong>
+      </div>
+      <div class="carimbo-cell">
+        <span class="carimbo-label">CURSO</span>
+        <strong class="carimbo-val">Sistemas de Informação</strong>
+      </div>
+      <div class="carimbo-cell">
+        <span class="carimbo-label">TURMA</span>
+        <strong class="carimbo-val">1º período · CESMAC</strong>
+      </div>
+      <div class="carimbo-cell">
+        <span class="carimbo-label">TENTATIVAS</span>
+        <strong class="carimbo-val mono" id="login-tentativas">0 / 3</strong>
+      </div>
+    </footer>
+  </div>
+
+  <!-- =========================================================================
+       FOLHAS 02 A 09 — SISTEMA INTERNO
+       ========================================================================= -->
+  <div id="sistema-shell" class="planta-frame">
+    <!-- FAIXA DO TOPO (DIRETÓRIO) -->
+    <header class="app-topbar">
+      <div class="topbar-folha mono" id="topo-folha">FOLHA 02</div>
+      <div class="topbar-breadcrumb mono" id="topo-caminho">
+        <span>ESQUADRO ENGENHARIA</span>
+        <span class="sep">/</span>
+        <span id="bc-modulo">GESTÃO DE PESSOAL</span>
+        <span class="sep">/</span>
+        <strong id="bc-tela" class="txt-principal">MENU PRINCIPAL</strong>
+      </div>
+    </header>
+
+    <!-- CORPO: MENU LATERAL + ÁREA DA PLANTA -->
+    <div class="app-body">
+      <aside class="sidebar">
+        <div class="sidebar-group">GESTÃO DE PESSOAL</div>
+        <button type="button" class="menu-btn" data-tela="cadastrar" onclick="navegarPara('cadastrar')">
+          <span class="menu-num">01</span>
+          <span class="menu-txt">Cadastrar funcionário</span>
+        </button>
+        <button type="button" class="menu-btn ativo" data-tela="principal" onclick="navegarPara('principal')">
+          <span class="menu-num">02</span>
+          <span class="menu-txt">Listar funcionários</span>
+        </button>
+        <button type="button" class="menu-btn" data-tela="cargo" onclick="navegarPara('cargo')">
+          <span class="menu-num">03</span>
+          <span class="menu-txt">Atualizar cargo</span>
+        </button>
+        <button type="button" class="menu-btn" data-tela="salario" onclick="navegarPara('salario')">
+          <span class="menu-num">04</span>
+          <span class="menu-txt">Atualizar salário</span>
+        </button>
+        <button type="button" class="menu-btn" data-tela="remover" onclick="navegarPara('remover')">
+          <span class="menu-num">05</span>
+          <span class="menu-txt">Remover funcionário</span>
+        </button>
+
+        <div class="sidebar-group sidebar-group-spaced">FOLHA DE PAGAMENTO</div>
+        <button type="button" class="menu-btn" data-tela="contracheque" onclick="navegarPara('contracheque')">
+          <span class="menu-num">06</span>
+          <span class="menu-txt">Emitir contracheque</span>
+        </button>
+        <button type="button" class="menu-btn" data-tela="ferias" onclick="navegarPara('ferias')">
+          <span class="menu-num">07</span>
+          <span class="menu-txt">Simular férias</span>
+        </button>
+        <button type="button" class="menu-btn" data-tela="relatorio" onclick="navegarPara('relatorio')">
+          <span class="menu-num">08</span>
+          <span class="menu-txt">Relatório da folha</span>
+        </button>
+
+        <div class="sidebar-footer">
+          <button type="button" class="btn-sair" onclick="sairDoSistema()">
+            <span>←</span>
+            <span>SAIR DO SISTEMA</span>
+          </button>
+        </div>
+      </aside>
+
+      <!-- WORKSPACE DAS FOLHAS 02 A 09 -->
+      <main class="workspace">
+
+        <!-- ===================================================================
+             FOLHA 02 — PRINCIPAL (LISTAR FUNCIONÁRIOS)
+             =================================================================== -->
+        <section id="tela-principal" class="folha-view ativo">
+          <div class="folha02-grid">
+            <div class="folha02-left">
+              <div class="section-banner">
+                <div class="section-num">02</div>
+                <div class="section-title">FUNCIONÁRIOS ATIVOS</div>
+                <div class="section-meta mono" id="f02-registros">6 REGISTROS</div>
+              </div>
+
+              <div class="kpi-strip kpi-4">
+                <div class="kpi-cell">
+                  <span class="kpi-label">FUNCIONÁRIOS</span>
+                  <strong class="kpi-val mono" id="f02-kpi-qtd">6</strong>
+                </div>
+                <div class="kpi-cell">
+                  <span class="kpi-label">FOLHA BRUTA</span>
+                  <strong class="kpi-val mono" id="f02-kpi-bruto">R$ 23.200,45</strong>
+                </div>
+                <div class="kpi-cell">
+                  <span class="kpi-label">INSS + IRPF</span>
+                  <strong class="kpi-val mono" id="f02-kpi-descontos">R$ 4.359,98</strong>
+                </div>
+                <div class="kpi-cell">
+                  <span class="kpi-label">LÍQUIDO A PAGAR</span>
+                  <strong class="kpi-val mono" id="f02-kpi-liquido">R$ 18.840,47</strong>
+                </div>
+              </div>
+
+              <div class="table-box">
+                <div class="table-head grid-f02">
+                  <span>ID</span>
+                  <span>NOME</span>
+                  <span>CARGO</span>
+                  <span class="txt-right">SALÁRIO</span>
+                </div>
+                <div id="f02-lista-funcionarios" class="table-body"></div>
+              </div>
+            </div>
+
+            <div class="det-panel folha02-right">
+              <div class="det-header">
+                <div class="det-tag-box">DET. B</div>
+                <div class="det-title">CONTRACHEQUE</div>
+              </div>
+              <div class="det-content" id="f02-det-b">
+                <h3 class="emp-big-name" id="f02-sel-nome">Diego Rocha</h3>
+                <div class="emp-sub-meta mono" id="f02-sel-sub">DESENHISTA TÉCNICO · ID 004</div>
+
+                <div class="kv-list">
+                  <div class="kv-row">
+                    <span>Salário bruto</span>
+                    <span class="mono" id="f02-sel-bruto">R$ 2.900,00</span>
+                  </div>
+                  <div class="kv-row">
+                    <span id="f02-sel-inss-label">INSS (12%)</span>
+                    <span class="mono" id="f02-sel-inss">- R$ 348,00</span>
+                  </div>
+                  <div class="kv-row">
+                    <span>IRPF</span>
+                    <span class="mono" id="f02-sel-irpf">- R$ 33,00</span>
+                  </div>
+                  <div class="kv-row">
+                    <span>FGTS (8%)</span>
+                    <span class="mono" id="f02-sel-fgts">R$ 232,00</span>
+                  </div>
+                </div>
+
+                <div class="liquido-highlight">
+                  <span class="liq-label">LÍQUIDO</span>
+                  <strong class="liq-val mono" id="f02-sel-liquido">R$ 2.519,00</strong>
+                </div>
+
+                <p class="footnote-mono">FGTS é depositado pela empresa e não sai do salário.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================================================================
+             FOLHA 03 — CADASTRAR FUNCIONÁRIO
+             =================================================================== -->
+        <section id="tela-cadastrar" class="folha-view">
+          <div class="section-banner">
+            <div class="section-num">01</div>
+            <div class="section-title">CADASTRAR FUNCIONÁRIO</div>
+            <div class="section-meta mono">NOVO REGISTRO</div>
+          </div>
+
+          <div class="std-2col">
+            <div class="det-panel det-main">
+              <div class="det-header">
+                <div class="det-tag-box">DET. A</div>
+                <div class="det-title">DADOS DO FUNCIONÁRIO</div>
+              </div>
+              <div class="det-content det-flex-col">
+                <div class="form-row-2col-id">
+                  <div class="field-group">
+                    <label class="field-label" for="cad-id">ID</label>
+                    <input type="text" id="cad-id" class="field-input mono" value="" placeholder="Ex.: 007" autocomplete="off">
+                  </div>
+                  <div class="field-group">
+                    <label class="field-label" for="cad-nome">NOME COMPLETO</label>
+                    <input type="text" id="cad-nome" class="field-input" value="" placeholder="Digite o nome completo" autocomplete="off">
+                  </div>
+                </div>
+
+                <div class="form-row-2col-cargo">
+                  <div class="field-group">
+                    <label class="field-label" for="cad-cargo">CARGO</label>
+                    <input type="text" id="cad-cargo" class="field-input" value="" placeholder="Digite o cargo" autocomplete="off">
+                  </div>
+                  <div class="field-group">
+                    <label class="field-label" for="cad-salario">SALÁRIO (R$)</label>
+                    <input type="text" id="cad-salario" class="field-input input-destaque mono" value="" placeholder="0,00" autocomplete="off" oninput="atualizarPreviaCadastro()">
+                  </div>
+                </div>
+
+                <p class="footnote-mono">O ID não pode se repetir. Se ele já existir, o cadastro é recusado.</p>
+                <div id="cad-msg" class="feedback-msg" style="display:none;"></div>
+
+                <div class="det-actions">
+                  <button type="button" class="btn-secundario" onclick="navegarPara('principal')">CANCELAR</button>
+                  <button type="button" class="btn-amarelo" onclick="salvarCadastro()">
+                    <span>SALVAR CADASTRO</span>
+                    <span class="seta">→</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="det-panel det-side">
+              <div class="det-header">
+                <div class="det-tag-box">DET. B</div>
+                <div class="det-title">PRÉVIA DA FOLHA</div>
+              </div>
+              <div class="det-content">
+                <p class="footnote-mono" style="margin-top:0; margin-bottom:18px;">Calculada com o salário digitado.</p>
+
+                <div class="kv-list">
+                  <div class="kv-row">
+                    <span>Salário bruto</span>
+                    <span class="mono" id="cad-prev-bruto">R$ 0,00</span>
+                  </div>
+                  <div class="kv-row">
+                    <span id="cad-prev-inss-label">INSS (0%)</span>
+                    <span class="mono" id="cad-prev-inss">- R$ 0,00</span>
+                  </div>
+                  <div class="kv-row">
+                    <span>IRPF</span>
+                    <span class="mono" id="cad-prev-irpf">- R$ 0,00</span>
+                  </div>
+                  <div class="kv-row">
+                    <span>FGTS (8%)</span>
+                    <span class="mono" id="cad-prev-fgts">R$ 0,00</span>
+                  </div>
+                </div>
+
+                <div class="liquido-highlight">
+                  <span class="liq-label">LÍQUIDO</span>
+                  <strong class="liq-val mono" id="cad-prev-liquido">R$ 0,00</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================================================================
+             FOLHA 04 — ATUALIZAR CARGO
+             =================================================================== -->
+        <section id="tela-cargo" class="folha-view">
+          <div class="section-banner">
+            <div class="section-num">03</div>
+            <div class="section-title">ATUALIZAR CARGO</div>
+            <div class="section-meta mono">REVISÃO DE CADASTRO</div>
+          </div>
+
+          <div class="std-2col">
+            <div class="det-panel det-main">
+              <div class="det-header">
+                <div class="det-tag-box">DET. A</div>
+                <div class="det-title">REVISÃO DE CARGO</div>
+              </div>
+              <div class="det-content det-flex-col">
+                <h3 class="emp-big-name" id="f04-nome">Diego Rocha</h3>
+                <div class="emp-sub-meta mono" id="f04-sub">ID 004 <span class="dot-amarelo">·</span> SALÁRIO R$ 2.900,00</div>
+
+                <div class="transition-row">
+                  <div class="field-group">
+                    <label class="field-label">CARGO ATUAL</label>
+                    <div class="readonly-box" id="f04-cargo-atual">Desenhista técnico</div>
+                  </div>
+                  <div class="transition-arrow">→</div>
+                  <div class="field-group">
+                    <label class="field-label" for="f04-novo-cargo">NOVO CARGO</label>
+                    <input type="text" id="f04-novo-cargo" class="field-input input-destaque" value="" placeholder="Digite o novo cargo" autocomplete="off">
+                  </div>
+                </div>
+
+                <p class="footnote-mono">Trocar o cargo não altera o salário. Para isso, use 04 · Atualizar salário.</p>
+                <div id="f04-msg" class="feedback-msg" style="display:none;"></div>
+
+                <div class="det-actions">
+                  <button type="button" class="btn-secundario" onclick="navegarPara('principal')">CANCELAR</button>
+                  <button type="button" class="btn-amarelo" onclick="salvarNovoCargo()">
+                    <span>SALVAR NOVO CARGO</span>
+                    <span class="seta">→</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="det-panel det-side">
+              <div class="det-header">
+                <div class="det-tag-box">DET. B</div>
+                <div class="det-title">FUNCIONÁRIOS</div>
+              </div>
+              <div class="side-emp-list" id="f04-lista-lateral"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================================================================
+             FOLHA 05 — ATUALIZAR SALÁRIO
+             =================================================================== -->
+        <section id="tela-salario" class="folha-view">
+          <div class="section-banner">
+            <div class="section-num">04</div>
+            <div class="section-title">ATUALIZAR SALÁRIO</div>
+            <div class="section-meta mono">REVISÃO DE CADASTRO</div>
+          </div>
+
+          <div class="std-2col">
+            <div class="det-panel det-main">
+              <div class="det-header">
+                <div class="det-tag-box">DET. A</div>
+                <div class="det-title">REVISÃO DE SALÁRIO</div>
+              </div>
+              <div class="det-content det-flex-col">
+                <h3 class="emp-big-name" id="f05-nome">Diego Rocha</h3>
+                <div class="emp-sub-meta mono" id="f05-sub">ID 004 <span class="dot-amarelo">·</span> DESENHISTA TÉCNICO</div>
+
+                <div class="transition-row">
+                  <div class="field-group">
+                    <label class="field-label">SALÁRIO ATUAL</label>
+                    <div class="readonly-box mono" id="f05-salario-atual">R$ 2.900,00</div>
+                  </div>
+                  <div class="transition-arrow">→</div>
+                  <div class="field-group">
+                    <label class="field-label" for="f05-novo-salario">NOVO SALÁRIO (R$)</label>
+                    <input type="text" id="f05-novo-salario" class="field-input input-destaque mono" value="" placeholder="0,00" autocomplete="off" oninput="atualizarComparativoSalario()">
+                  </div>
+                </div>
+
+                <div class="kpi-strip kpi-4" style="margin-top: 18px;">
+                  <div class="kpi-cell">
+                    <span class="kpi-label">DIFERENÇA</span>
+                    <strong class="kpi-val mono" id="f05-comp-dif">R$ 0,00</strong>
+                  </div>
+                  <div class="kpi-cell">
+                    <span class="kpi-label">REAJUSTE</span>
+                    <strong class="kpi-val mono" id="f05-comp-perc">0,0%</strong>
+                  </div>
+                  <div class="kpi-cell">
+                    <span class="kpi-label">LÍQUIDO ATUAL</span>
+                    <strong class="kpi-val mono" id="f05-comp-liq-atual">R$ 2.519,00</strong>
+                  </div>
+                  <div class="kpi-cell">
+                    <span class="kpi-label">NOVO LÍQUIDO</span>
+                    <strong class="kpi-val mono" id="f05-comp-liq-novo">R$ 0,00</strong>
+                  </div>
+                </div>
+
+                <div id="f05-msg" class="feedback-msg" style="display:none;"></div>
+
+                <div class="det-actions">
+                  <button type="button" class="btn-secundario" onclick="navegarPara('principal')">CANCELAR</button>
+                  <button type="button" class="btn-amarelo" onclick="salvarNovoSalario()">
+                    <span>SALVAR NOVO SALÁRIO</span>
+                    <span class="seta">→</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="det-panel det-side">
+              <div class="det-header">
+                <div class="det-tag-box">DET. B</div>
+                <div class="det-title">FUNCIONÁRIOS</div>
+              </div>
+              <div class="side-emp-list" id="f05-lista-lateral"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================================================================
+             FOLHA 06 — REMOVER FUNCIONÁRIO
+             =================================================================== -->
+        <section id="tela-remover" class="folha-view">
+          <div class="section-banner">
+            <div class="section-num">05</div>
+            <div class="section-title">REMOVER FUNCIONÁRIO</div>
+            <div class="section-meta mono">CONFIRMAÇÃO</div>
+          </div>
+
+          <div class="std-2col">
+            <div class="det-panel det-main">
+              <div class="det-header">
+                <div class="det-tag-box">DET. A</div>
+                <div class="det-title">CONFIRMAR REMOÇÃO</div>
+              </div>
+              <div class="det-content det-flex-col">
+                <div class="kpi-strip kpi-remove">
+                  <div class="kpi-cell">
+                    <span class="kpi-label">ID</span>
+                    <strong class="kpi-val mono" id="f06-id">006</strong>
+                  </div>
+                  <div class="kpi-cell">
+                    <span class="kpi-label">NOME</span>
+                    <strong class="kpi-val mono" id="f06-nome">Gustavo Pires</strong>
+                  </div>
+                  <div class="kpi-cell">
+                    <span class="kpi-label">CARGO</span>
+                    <strong class="kpi-val mono" id="f06-cargo">Estagiário</strong>
+                  </div>
+                  <div class="kpi-cell">
+                    <span class="kpi-label">SALÁRIO</span>
+                    <strong class="kpi-val mono" id="f06-salario">R$ 1.400,00</strong>
+                  </div>
+                </div>
+
+                <div class="coral-alert">
+                  <span class="coral-tag mono">ATENÇÃO</span>
+                  <p>O funcionário sai do sistema e da folha de pagamento. Esta ação não pode ser desfeita.</p>
+                </div>
+
+                <p class="footnote-mono">Confira o ID antes de confirmar. A lista ao lado mostra quem está selecionado.</p>
+                <div id="f06-msg" class="feedback-msg" style="display:none;"></div>
+
+                <div class="det-actions">
+                  <button type="button" class="btn-secundario" onclick="navegarPara('principal')">CANCELAR</button>
+                  <button type="button" class="btn-coral" onclick="confirmarRemocao()">
+                    <span>REMOVER FUNCIONÁRIO</span>
+                    <span class="seta">→</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="det-panel det-side">
+              <div class="det-header">
+                <div class="det-tag-box">DET. B</div>
+                <div class="det-title">FUNCIONÁRIOS</div>
+              </div>
+              <div class="side-emp-list" id="f06-lista-lateral"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================================================================
+             FOLHA 07 — EMITIR CONTRACHEQUE
+             =================================================================== -->
+        <section id="tela-contracheque" class="folha-view">
+          <div class="section-banner">
+            <div class="section-num">06</div>
+            <div class="section-title">EMITIR CONTRACHEQUE</div>
+            <div class="section-meta mono">COMPETÊNCIA 10/2026</div>
+          </div>
+
+          <div class="std-2col">
+            <div class="det-panel det-main">
+              <div class="det-header">
+                <div class="det-tag-box">DET. A</div>
+                <div class="det-title">CONTRACHEQUE · OUTUBRO DE 2026</div>
+              </div>
+              <div class="det-content det-flex-col">
+                <div class="kpi-strip kpi-holerite-top">
+                  <div class="kpi-cell">
+                    <span class="kpi-label">FUNCIONÁRIO</span>
+                    <strong class="kpi-val mono" id="f07-nome">Diego Rocha</strong>
+                  </div>
+                  <div class="kpi-cell">
+                    <span class="kpi-label">CARGO</span>
+                    <strong class="kpi-val mono" id="f07-cargo">Desenhista técnico</strong>
+                  </div>
+                  <div class="kpi-cell">
+                    <span class="kpi-label">ID</span>
+                    <strong class="kpi-val mono" id="f07-id">004</strong>
+                  </div>
+                  <div class="kpi-cell">
+                    <span class="kpi-label">COMPETÊNCIA</span>
+                    <strong class="kpi-val mono">10/2026</strong>
+                  </div>
+                </div>
+
+                <div class="holerite-table">
+                  <div class="holerite-head">
+                    <span>DESCRIÇÃO</span>
+                    <span>REFERÊNCIA</span>
+                    <span class="txt-right">PROVENTOS</span>
+                    <span class="txt-right">DESCONTOS</span>
+                  </div>
+                  <div class="holerite-row">
+                    <span>Salário base</span>
+                    <span class="mono txt-sec">30 dias</span>
+                    <span class="mono txt-right" id="f07-prov-sal">2.900,00</span>
+                    <span class="mono txt-right txt-sec">—</span>
+                  </div>
+                  <div class="holerite-row">
+                    <span>INSS</span>
+                    <span class="mono txt-sec" id="f07-ref-inss">12%</span>
+                    <span class="mono txt-right txt-sec">—</span>
+                    <span class="mono txt-right" id="f07-desc-inss">348,00</span>
+                  </div>
+                  <div class="holerite-row">
+                    <span>IRPF</span>
+                    <span class="mono txt-sec" id="f07-ref-irpf">7,5%</span>
+                    <span class="mono txt-right txt-sec">—</span>
+                    <span class="mono txt-right" id="f07-desc-irpf">33,00</span>
+                  </div>
+                  <div class="holerite-totais">
+                    <span class="mono">TOTAIS</span>
+                    <span></span>
+                    <strong class="mono txt-right" id="f07-tot-prov">2.900,00</strong>
+                    <strong class="mono txt-right" id="f07-tot-desc">381,00</strong>
+                  </div>
+                </div>
+
+                <div class="holerite-bottom-grid">
+                  <div class="fgts-box">
+                    <span class="kpi-label">FGTS (8%) · PAGO PELA EMPRESA</span>
+                    <strong class="mono fgts-val" id="f07-fgts">R$ 232,00</strong>
+                  </div>
+                  <div class="liquido-highlight holerite-liq-box">
+                    <span class="liq-label">LÍQUIDO</span>
+                    <strong class="liq-val mono" id="f07-liquido">R$ 2.519,00</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="det-panel det-side">
+              <div class="det-header">
+                <div class="det-tag-box">DET. B</div>
+                <div class="det-title">FUNCIONÁRIOS</div>
+              </div>
+              <div class="side-emp-list" id="f07-lista-lateral"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================================================================
+             FOLHA 08 — SIMULAR FÉRIAS
+             =================================================================== -->
+        <section id="tela-ferias" class="folha-view">
+          <div class="section-banner">
+            <div class="section-num">07</div>
+            <div class="section-title">SIMULAR FÉRIAS</div>
+            <div class="section-meta mono">SALÁRIO + 1/3</div>
+          </div>
+
+          <div class="std-2col">
+            <div class="det-panel det-main">
+              <div class="det-header">
+                <div class="det-tag-box">DET. A</div>
+                <div class="det-title">SIMULAÇÃO DE FÉRIAS</div>
+              </div>
+              <div class="det-content det-flex-col">
+                <h3 class="emp-big-name" id="f08-nome">Diego Rocha</h3>
+                <div class="emp-sub-meta mono" id="f08-sub">ID 004 <span class="dot-amarelo">·</span> DESENHISTA TÉCNICO</div>
+
+                <div class="field-label" style="margin-top: 10px; margin-bottom: 8px;">COMPOSIÇÃO DO PAGAMENTO DE FÉRIAS</div>
+                <div class="ferias-bar">
+                  <div class="ferias-bar-sal">
+                    <span class="kpi-label">SALÁRIO</span>
+                    <strong class="mono" id="f08-bar-sal">R$ 2.900,00</strong>
+                  </div>
+                  <div class="ferias-bar-terco">
+                    <span class="kpi-label txt-amarelo">+ 1/3</span>
+                    <strong class="mono txt-amarelo" id="f08-bar-terco">R$ 966,67</strong>
+                  </div>
+                </div>
+                <div class="ferias-sub-total">
+                  <span class="kpi-label">SALÁRIO + FÉRIAS</span>
+                  <strong class="mono" id="f08-total-bruto">R$ 3.866,67</strong>
+                </div>
+
+                <hr class="planta-divider">
+
+                <div class="ferias-bottom-row">
+                  <div class="ferias-deducoes">
+                    <div class="ferias-ded-line">
+                      <span id="f08-inss-label">INSS (12%)</span>
+                      <span class="mono" id="f08-inss">- R$ 464,00</span>
+                    </div>
+                    <div class="ferias-ded-line">
+                      <span id="f08-irpf-label">IRPF (15%)</span>
+                      <span class="mono" id="f08-irpf">- R$ 140,00</span>
+                    </div>
+                    <div class="ferias-ded-line">
+                      <span>FGTS (8%)</span>
+                      <span class="mono" id="f08-fgts">R$ 309,33</span>
+                    </div>
+                  </div>
+
+                  <div class="liquido-highlight ferias-liq-box">
+                    <span class="liq-label">LÍQUIDO</span>
+                    <strong class="liq-val mono" id="f08-liquido">R$ 3.262,67</strong>
+                  </div>
+                </div>
+
+                <p class="footnote-mono" style="margin-top: auto;">Os descontos são calculados sobre o salário + 1/3 de férias.</p>
+              </div>
+            </div>
+
+            <div class="det-panel det-side">
+              <div class="det-header">
+                <div class="det-tag-box">DET. B</div>
+                <div class="det-title">FUNCIONÁRIOS</div>
+              </div>
+              <div class="side-emp-list" id="f08-lista-lateral"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================================================================
+             FOLHA 09 — RELATÓRIO DA FOLHA
+             =================================================================== -->
+        <section id="tela-relatorio" class="folha-view">
+          <div class="section-banner">
+            <div class="section-num">08</div>
+            <div class="section-title">RELATÓRIO DA FOLHA</div>
+            <div class="section-meta mono">COMPETÊNCIA 10/2026</div>
+          </div>
+
+          <div class="std-2col">
+            <div class="relatorio-left">
+              <div class="kpi-strip kpi-4" style="margin-top: 0;">
+                <div class="kpi-cell">
+                  <span class="kpi-label">FUNCIONÁRIOS</span>
+                  <strong class="kpi-val mono" id="f09-kpi-qtd">6</strong>
+                </div>
+                <div class="kpi-cell">
+                  <span class="kpi-label">SALÁRIO BRUTO</span>
+                  <strong class="kpi-val mono" id="f09-kpi-bruto">R$ 23.200,45</strong>
+                </div>
+                <div class="kpi-cell">
+                  <span class="kpi-label">INSS RETIDO</span>
+                  <strong class="kpi-val mono" id="f09-kpi-inss">R$ 2.910,04</strong>
+                </div>
+                <div class="kpi-cell">
+                  <span class="kpi-label">IRPF RETIDO</span>
+                  <strong class="kpi-val mono" id="f09-kpi-irpf">R$ 1.449,94</strong>
+                </div>
+              </div>
+
+              <div class="table-box">
+                <div class="table-head grid-f09">
+                  <span>FUNCIONÁRIO</span>
+                  <span class="txt-right">BRUTO</span>
+                  <span class="txt-right">INSS</span>
+                  <span class="txt-right">IRPF</span>
+                  <span class="txt-right">LÍQUIDO</span>
+                </div>
+                <div id="f09-tabela-corpo" class="table-body"></div>
+                <div class="table-foot grid-f09">
+                  <strong class="mono">TOTAL</strong>
+                  <strong class="mono txt-right" id="f09-tot-bruto">23.200,45</strong>
+                  <strong class="mono txt-right" id="f09-tot-inss">2.910,04</strong>
+                  <strong class="mono txt-right" id="f09-tot-irpf">1.449,94</strong>
+                  <strong class="mono txt-right txt-amarelo" id="f09-tot-liquido">18.840,47</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="det-panel det-side">
+              <div class="det-header">
+                <div class="det-tag-box">DET. B</div>
+                <div class="det-title">COMPOSIÇÃO DA FOLHA</div>
+              </div>
+              <div class="det-content det-flex-col">
+                <div class="field-label" style="margin-bottom: 10px;">DO SALÁRIO BRUTO TOTAL</div>
+
+                <div class="stacked-bar">
+                  <div class="bar-seg-liq" id="f09-bar-liq" style="width: 81.2%;"></div>
+                  <div class="bar-seg-inss" id="f09-bar-inss" style="width: 12.5%;"></div>
+                  <div class="bar-seg-irpf" id="f09-bar-irpf" style="width: 6.3%;"></div>
+                </div>
+
+                <div class="kv-list" style="margin-top: 14px;">
+                  <div class="kv-row">
+                    <span><i class="sq-icon sq-branco"></i> Líquido</span>
+                    <span class="mono" id="f09-pct-liq">81,2%</span>
+                  </div>
+                  <div class="kv-row">
+                    <span><i class="sq-icon sq-amarelo"></i> INSS</span>
+                    <span class="mono" id="f09-pct-inss">12,5%</span>
+                  </div>
+                  <div class="kv-row">
+                    <span><i class="sq-icon sq-coral"></i> IRPF</span>
+                    <span class="mono" id="f09-pct-irpf">6,3%</span>
+                  </div>
+                </div>
+
+                <div class="kv-row" style="margin-top: 12px; border-bottom: none;">
+                  <span>FGTS a recolher</span>
+                  <span class="mono txt-principal" id="f09-fgts-total">R$ 1.856,04</span>
+                </div>
+                <p class="footnote-mono" style="margin-top: 6px;">O FGTS é pago pela empresa e não entra no desconto.</p>
+
+                <div class="liquido-highlight" style="margin-top: auto;">
+                  <span class="liq-label">LÍQUIDO</span>
+                  <strong class="liq-val mono" id="f09-card-liquido">R$ 18.840,47</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+
+    <!-- CARIMBO DO RODAPÉ (FOLHAS 02 A 09) -->
+    <footer class="carimbo carimbo-interno">
+      <div class="carimbo-cell">
+        <span class="carimbo-label">EMPRESA</span>
+        <strong class="carimbo-val">Esquadro Engenharia Ltda.</strong>
+      </div>
+      <div class="carimbo-cell">
+        <span class="carimbo-label">PROJETO</span>
+        <strong class="carimbo-val">Sistema de RH</strong>
+      </div>
+      <div class="carimbo-cell">
+        <span class="carimbo-label">USUÁRIO</span>
+        <strong class="carimbo-val" id="carimbo-usuario">Admin</strong>
+      </div>
+      <div class="carimbo-cell">
+        <span class="carimbo-label">TURMA</span>
+        <strong class="carimbo-val">1º período · CESMAC</strong>
+      </div>
+      <div class="carimbo-cell">
+        <span class="carimbo-label">FOLHA</span>
+        <strong class="carimbo-val mono" id="carimbo-folha">02 / 09</strong>
+      </div>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
